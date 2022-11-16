@@ -1,4 +1,6 @@
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:family_memo_app/components/button.dart';
+import 'package:family_memo_app/presentation/add_task_screen.dart';
 import 'package:family_memo_app/services/theme_service.dart';
 import 'package:family_memo_app/theme.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +15,34 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  DateTime _selectedValue = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
       body: Column(
-        children: [_addTaskBar()],
+        children: [
+          _addTaskBar(),
+          _addDateBar(),
+        ],
       ),
+    );
+  }
+
+  _addDateBar() {
+    return DatePicker(
+      DateTime.now(),
+      height: 80,
+      width: 80,
+      initialSelectedDate: DateTime.now(),
+      selectionColor: bluish,
+      selectedTextColor: Colors.white,
+      onDateChange: (date) {
+        setState(() {
+          _selectedValue = date;
+        });
+      },
     );
   }
 
@@ -49,7 +72,15 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Button(label: "+ 할 일 추가", onTap: () {}),
+          Button(
+              label: "+ 할 일 추가",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AddTaskScreen()),
+                );
+              }),
         ],
       ),
     );
@@ -59,7 +90,7 @@ class _MainScreenState extends State<MainScreen> {
     return AppBar(
       elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.yellow,
       title: const Text('우리 가족 회의 앱',
           style: TextStyle(color: bluish, fontWeight: FontWeight.bold)),
       leading: GestureDetector(

@@ -1,4 +1,4 @@
-import 'package:family_memo_app/main_screen.dart';
+import 'package:family_memo_app/presentation/main_screen.dart';
 import 'package:family_memo_app/services/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
