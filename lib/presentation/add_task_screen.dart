@@ -13,6 +13,8 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   DateTime _selectedDate = DateTime.now();
+  String endTime = "9:30 PM";
+  String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +22,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       appBar: _appBar(context),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Add Task",
-                style: GoogleFonts.lato(
-                    textStyle: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
-              ),
+            Text(
+              "할 일 추가",
+              style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              )),
             ),
             const InputField(title: "Title", hint: "Enter your title"),
             const InputField(title: "Note", hint: "Enter your Note"),
@@ -47,6 +46,38 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   _getDateFromUser();
                 },
               ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: InputField(
+                  title: "Start Time",
+                  hint: startTime,
+                  widget: IconButton(
+                    onPressed: () {
+                      _getTimeFromUser(isStartTime: true);
+                    },
+                    icon: const Icon(
+                      Icons.access_time_rounded,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )),
+                Expanded(
+                    child: InputField(
+                  title: "End Time",
+                  hint: endTime,
+                  widget: IconButton(
+                    onPressed: () {
+                      _getTimeFromUser(isStartTime: false);
+                    },
+                    icon: const Icon(
+                      Icons.access_time_rounded,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )),
+              ],
             ),
           ],
         ),
@@ -65,7 +96,37 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       setState(() {
         _selectedDate = _pickerDate;
       });
+    } else {
+      print("it's null or something is wrong");
     }
+  }
+
+  _getTimeFromUser({required bool isStartTime}) async {
+    var pickedTime = await _showTimePicker();
+    if (!mounted) return;
+    String _formatedTime = pickedTime.format(context);
+    if (pickedTime == null) {
+      print("Time canceled");
+    } else if (isStartTime == true) {
+      setState(() {
+        startTime = _formatedTime;
+      });
+    } else if (isStartTime == false) {
+      setState(() {
+        endTime = _formatedTime;
+      });
+    }
+  }
+
+  _showTimePicker() {
+    return showTimePicker(
+      initialEntryMode: TimePickerEntryMode.input,
+      context: context,
+      initialTime: TimeOfDay(
+          //_startTime --> 10:30 AM(string format)
+          hour: int.parse(startTime.split(":")[0]),
+          minute: int.parse(startTime.split(":")[1].split(' ')[0])),
+    );
   }
 
   _appBar(BuildContext context) {
