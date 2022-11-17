@@ -19,9 +19,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Lobster-Regular',
-      ),
       themeMode: ThemeService().theme,
       home: const MainScreen(),
     );

@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
   _addDateBar() {
     return DatePicker(
       DateTime.now(),
-      height: 80,
+      height: 100,
       width: 80,
       initialSelectedDate: DateTime.now(),
       selectionColor: bluish,
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 const Text(
                   "Today",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -88,11 +88,14 @@ class _MainScreenState extends State<MainScreen> {
 
   _appBar() {
     return AppBar(
-      elevation: 0,
       centerTitle: true,
       backgroundColor: Colors.yellow,
-      title: const Text('우리 가족 회의 앱',
-          style: TextStyle(color: bluish, fontWeight: FontWeight.bold)),
+      title: Text(
+        '우리 가족 회의 앱',
+        style: GoogleFonts.lato(
+            textStyle: const TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: bluish)),
+      ),
       leading: GestureDetector(
         onTap: () {
           ThemeService().switchTheme();

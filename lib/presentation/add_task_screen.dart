@@ -15,6 +15,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   DateTime _selectedDate = DateTime.now();
   String endTime = "9:30 PM";
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
+  int selectedRemind = 5;
+  List<int> remindList = [
+    5,
+    10,
+    15,
+    20,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +86,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 )),
               ],
             ),
+            InputField(
+              title: "Remind",
+              hint: "$selectedRemind minutes early",
+              widget: DropdownButton(
+                icon: const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.grey,
+                ),
+                underline: Container(height: 0),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedRemind = int.parse(newValue!);
+                  });
+                },
+                items: remindList.map<DropdownMenuItem<String>>((int value) {
+                  return DropdownMenuItem<String>(
+                      value: value.toString(), child: Text(value.toString()));
+                }).toList(),
+              ),
+            ),
+            InputField(title: "Repeat", hint: ""),
           ],
         ),
       ),

@@ -24,7 +24,7 @@ class InputField extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
           Container(
